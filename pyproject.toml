@@ -5,7 +5,9 @@ version = "0.1.0"
 dependencies = [
     "nerfstudio",
     "nerfacc",
-    "diffusers"
+    "diffusers",
+    "transformers",
+    "accelerate",
 ]
 
 [tool.setuptools.packages.find]

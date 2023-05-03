@@ -2,26 +2,32 @@
 
 ## Preresiquites
 1. If on WSL, Make sure CUDA Toolkit 11.7.1 is installed.
+   - Make sure that you do `sudo ln -s /usr/lib/wsl/lib/libcuda.so.1 /usr/local/cuda/lib64/libcuda.so` and path's
+      ```sh
+      export PATH="/usr/local/cuda/bin:$PATH"
+      export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+      ```
+      Have been set so that compilers can find `-lcuda`.
 2. Set up Nerfstudio environment
    ```sh
-    conda create --name nerfstudio -y python=3.10
-    conda activate nerfstudio
-    python -m pip install --upgrade pip
-    conda install --channel "nvidia/label/cuda-11.7.1" cuda -y
-    pip install torch==1.13.1 torchvision functorch --extra-index-url https://download.pytorch.org/whl/cu117
-    pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
-    pip install git+https://github.com/KAIR-BAIR/nerfacc.git
-    git clone https://github.com/nerfstudio-project/nerfstudio.git
-    cd nerfstudio
-    pip install --upgrade pip setuptools
-    pip install -e .
-    cd ..
-    ```
+   conda create --name nerfstudio -y python=3.10
+   conda activate nerfstudio
+   python -m pip install --upgrade pip
+   conda install --channel "nvidia/label/cuda-11.7.1" cuda -y
+   pip install torch==1.13.1 torchvision functorch --extra-index-url https://download.pytorch.org/whl/cu117
+   pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+   pip install git+https://github.com/KAIR-BAIR/nerfacc.git
+   git clone https://github.com/nerfstudio-project/nerfstudio.git
+   cd nerfstudio
+   pip install --upgrade pip setuptools
+   pip install -e .
+   cd ..
+   ```
 3. Clone this repo and install
    ```sh
-    git clone https://github.com/alxn3/NeRF-This.git
-    cd NeRF-This
-    pip install -e .
+   git clone https://github.com/alxn3/NeRF-This.git
+   cd NeRF-This
+   pip install -e .
    ```
 
 ## Running
