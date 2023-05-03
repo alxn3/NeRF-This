@@ -15,8 +15,11 @@ from nerfthis.nerfthis_diffusion import DeNoiseThis
 class NerfThisPipelineConfig(DynamicBatchPipelineConfig):
     """Configuration for pipeline instantiation"""
     _target: Type = field(default_factory=lambda: NerfThisPipeline)
+    """maximum number of times the camera can 'walk' to find a valid position"""
     max_walk_iterations: int = 3
+    """how often to diffuse a new image (in terms of steps)"""
     edit_rate: int = 100
+    """how many edits to make per diffusion"""
     edit_count: int = 1
     dnt_device: Optional[str] = None
     use_full_precision: bool = True
@@ -161,6 +164,7 @@ class NerfThisPipeline(DynamicBatchPipeline):
 
                 self.datamanager.image_batch["image"][i] = edited_image.squeeze().permute(1,2,0)
 
+        # diffuse the images at the specified rate
         if step % self.config.edit_rate == 0:
             for _ in range(self.config.edit_count): self._diffuse_image(next(self.diffusion_indices_order))
 

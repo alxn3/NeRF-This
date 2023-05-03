@@ -10,7 +10,6 @@
     conda install --channel "nvidia/label/cuda-11.7.1" cuda -y
     pip install torch==1.13.1 torchvision functorch --extra-index-url https://download.pytorch.org/whl/cu117
     pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
-    pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
     pip install git+https://github.com/KAIR-BAIR/nerfacc.git
     git clone https://github.com/nerfstudio-project/nerfstudio.git
     cd nerfstudio
@@ -20,8 +19,8 @@
     ```
 3. Clone this repo and install
    ```sh
-    git clone ...
-    cd 
+    git clone https://github.com/alxn3/NeRF-This.git
+    cd NeRF-This
     pip install -e .
    ```
 
@@ -32,9 +31,24 @@ Please follow the instructions [here](https://docs.nerf.studio/en/latest/quickst
 
 Example:
 ```sh
+# Train a NeRF model first
+ns-train instant-ngp --data data/fox/
+
+# Run our method on the trained model
 ns-train nerfthis --data data/fox/ --load-dir outputs/fox/instant-ngp/{...}/nerfstudio_models/
 ```
+
+Please note that the step count starts at what the trained model ended at. For example, if the trained model stopped at 30k steps, our model will start from that step as well.
 
 ## Current Restrictions
 - Training from checkpoints do not work currently
   - New camera views are being made from new accumulation.
+
+
+## Compute Requirements
+- 16 GB VRAM
+
+Training 200k steps took ~8 hours using:
+- RTX Quadro 5000 16 GB
+- Intel Xeon W-10885M
+- 32 GB RAM
