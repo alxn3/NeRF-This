@@ -2,12 +2,12 @@
 
 ## Preresiquites
 1. If on WSL, Make sure CUDA Toolkit 11.7.1 is installed.
-   - Make sure that you do `sudo ln -s /usr/lib/wsl/lib/libcuda.so.1 /usr/local/cuda/lib64/libcuda.so` and path's
+   - Make sure that you do `sudo ln -s /usr/lib/wsl/lib/libcuda.so.1 /usr/local/cuda/lib64/libcuda.so` and paths
       ```sh
       export PATH="/usr/local/cuda/bin:$PATH"
       export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
       ```
-      Have been set so that compilers can find `-lcuda`.
+      have been set so that compilers can find `-lcuda` during setup.
 2. Set up Nerfstudio environment
    ```sh
    conda create --name nerfstudio -y python=3.10
@@ -53,6 +53,7 @@ Please note that the step count starts at what the trained model ended at. For e
 
 ## Compute Requirements
 - 16 GB VRAM
+  - Note: will occasionally throw `CUDA_ERROR_OUT_OF_MEMORY` errors during the setup phase.
 
 Training 200k steps took ~8 hours using:
 - RTX Quadro 5000 16 GB
