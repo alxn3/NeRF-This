@@ -16,6 +16,7 @@ class NerfThisTrainerConfig(TrainerConfig):
     """Configuration for training regimen"""
 
     _target: Type = field(default_factory=lambda: NerfThisTrainer)
+    """config for if we need to double the input images for training (only False if resuming from checkpoint)"""
     double: bool = True
 
 class NerfThisTrainer(Trainer):
@@ -35,6 +36,7 @@ class NerfThisTrainer(Trainer):
             assert load_path.exists(), f"Checkpoint {load_path} does not exist"
             loaded_state = torch.load(load_path, map_location="cpu")
 
+            # we only want to double the embedding weights and the optimizer state if we are loading a model to do inpainting on
             if self.config.double:
                 loaded_state["pipeline"]["_model.field.embedding_appearance.embedding.weight"] = torch.cat([loaded_state["pipeline"]["_model.field.embedding_appearance.embedding.weight"]]*2, dim=0)
                 loaded_state["optimizers"]["fields"]["state"][0]["exp_avg"] = torch.cat([loaded_state["optimizers"]["fields"]["state"][0]["exp_avg"]]*2, dim=0)

@@ -21,6 +21,7 @@ class NerfThisDataManagerConfig(VanillaDataManagerConfig):
 
     _target: Type = field(default_factory=lambda: NerfThisDataManager)
     dataparser = NerfThisDataParserConfig()
+    """config for if we need to double the input images for training (only False if resuming from checkpoint)"""
     double: bool = True
 
 class NerfThisDataManager(VanillaDataManager):

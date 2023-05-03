@@ -51,7 +51,7 @@ class NerfThisPipeline(DynamicBatchPipeline):
                 
         # copy all the original input camera and images to a new list
         half = len(self.datamanager.train_dataset) // 2
-        
+
         torch.cuda.empty_cache()
         if self.training:
             print("Finding new camera positions...")
@@ -141,6 +141,7 @@ class NerfThisPipeline(DynamicBatchPipeline):
                     self.datamanager.get_param_groups()[camera_opt_param_group][0].data[:, 3:].norm()
                 )
 
+        # diffuse all the images at the start so we aren't training on incorrect images
         if not self.diffused_all:
             self.diffused_all = True
             for i in tqdm(range(self.train_num_added_images)):
@@ -180,6 +181,12 @@ class NerfThisPipeline(DynamicBatchPipeline):
 
         return model_outputs, loss_dict, metrics_dict
     def _diffuse_image(self, index: int):
+        """
+        This method will do the masking and inpainting of the image at the given index
+
+        Args:
+            index (int): The index of the image to be diffused
+        """
         current_ray_bundle = self.datamanager.train_dataset.cameras.to(self.device).generate_rays(index, keep_shape=True)
         camera_outputs = self.model.get_outputs_for_camera_ray_bundle(current_ray_bundle)
 
