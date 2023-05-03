@@ -1,0 +1,15 @@
+[project]
+name = "nerfthis"
+version = "0.1.0"
+
+dependencies = [
+    "nerfstudio",
+    "nerfacc",
+    "diffusers"
+]
+
+[tool.setuptools.packages.find]
+include = ["nerfthis*"]
+
+[project.entry-points.'nerfstudio.method_configs']
+nerfthis = 'nerfthis.nerfthis_config:nerfthis_method'
